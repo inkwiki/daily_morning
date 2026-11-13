@@ -5,6 +5,19 @@ on:
   workflow_dispatch:
 
 jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    # 👉 重点：加上这两行！
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: 空提交保活
+        run: |
+          git config --global user.name "Bot"
+          git config --global user.email "328963863@github.com"
+          git push https://${{ secrets.PAT_TOKEN }}@github.com/inkwiki/daily_morning.git
+
   send_message:
     runs-on: ubuntu-latest
     name: send morning to your girlfriend
